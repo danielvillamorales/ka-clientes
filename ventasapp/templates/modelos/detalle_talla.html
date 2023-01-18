@@ -1,0 +1,58 @@
+{% block contenido %}
+
+<div class="container">
+
+    {% include "modelos/navbar.html" %}
+
+    <br>
+    <div>
+        <h1>Lista tallas</h1>
+    </div>
+    <br>
+
+    <div>
+        <button type="button" class="btn btn-primary btn-sm" onclick=" location.href='{% url 'ventasapp:crear_talla' %}'">
+            Adicionar
+        </button>
+    </div>
+
+    <br>
+    <div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">Código</th>
+                <th scope="col">Descripción</th>
+                <th scope="col">Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% if lista_datos %}
+            {% for items in lista_datos  %}
+                <tr>
+                    <td>{{items.codigo}}</td>
+                    <td>{{items.descripcion}}</td>
+                    <td>
+                        <button type="button" 
+                                class="btn btn-warning btn-sm"
+                                onclick=" location.href='{% url 'ventasapp:editar_talla' items.id %}'">
+                                Editar
+                        </button>
+
+                        <a href=" {% url 'ventasapp:eliminar_talla' items.id %}" 
+                            class="btn btn-danger btn-sm"
+                            onClick="return confirm('¿Seguro que quieres borrar a {{items.codigo}} - {{items.descripcion}}?');">
+                            Eliminar
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            {% else %}
+                <p>No se ha registrado tallas</p>
+            {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

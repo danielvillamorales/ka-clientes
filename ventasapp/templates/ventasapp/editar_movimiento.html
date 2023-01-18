@@ -1,0 +1,103 @@
+{% block contenido %}
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
+{% include "utils/calendario.html" %}
+
+<div class="container">
+    <h1>Editar movimiento</h1>
+        <form action="" method="POST" class="form-horizontal">
+            {% csrf_token %}
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Fecha</label>
+                <div class="col-sm-10 ">
+                    {{ form.fecha }}
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Edad</label>
+                <div type="number"  class="col-sm-10 ">
+                    {{form.edad}}
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Bodega</label>
+                <div class="col-sm-10 ">
+                    {{form.bodega}}
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Color</label>
+                <div class="col-sm-10 ">
+                    {{form.color}}
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Genero</label>
+                <div class="col-sm-10 ">
+                    {{form.genero}}
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Motivo</label>
+                <div class="col-sm-10 ">
+                    {{form.motivo}}
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Producto</label>
+                <div class="col-sm-10 ">
+                    {{form.producto}}
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Silueta</label>
+                <div class="col-sm-10 ">
+                    {{form.silueta}}
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Talla</label>
+                <div class="col-sm-10 ">
+                    {{form.talla}}
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Observación</label>
+                <div class="col-sm-10 ">
+                    {{form.observacion}}
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-4">
+                    <button type="submit" 
+                            class="btn btn-success">
+                            Guardar
+                    </button>
+                </div>
+                <div class="col-4">
+                    <button onclick="window.history.back();" 
+                            class="btn btn-danger" 
+                            type="button">
+                            Cancelar
+                    </button>
+                </div>
+        </form>
+    </div>
+<br>
+{% endblock %}

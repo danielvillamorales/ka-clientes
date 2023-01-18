@@ -1,0 +1,45 @@
+{% block contenido %}
+{% include "utils/estilos_bootstrap.html" %}
+    <div class="container" style="padding-top: 50px;padding-left: 0px;padding-right: 0px;">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">Fecha</th>
+                <th scope="col">Género</th>
+                <th scope="col">Edad</th>
+                <th scope="col">Bodega</th>
+                <th scope="col">Producto</th>
+                <th scope="col">Color</th>
+                <th scope="col">Talla</th>
+                <th scope="col">Silueta</th>
+                <th scope="col">Motivo</th>
+                <th scope="col">Observación</th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for venta_no_realizada in ventas_no_realizadas %}
+                <tr>
+                    <td>{{venta_no_realizada.fecha|date:'Y-m-d'}}</td>
+                    <td>{{venta_no_realizada.genero}}</td>
+                    <td>{{venta_no_realizada.edad}}</td>
+                    <td>{{venta_no_realizada.bodega}}</td>
+                    <td>{{venta_no_realizada.producto}}</td>
+                    <td>{{venta_no_realizada.color}}</td>
+                    <td>{{venta_no_realizada.talla}}</td>
+                    <td>{{venta_no_realizada.silueta}}</td>
+                    <td>{{venta_no_realizada.motivo}}</td>
+                    <td>{{venta_no_realizada.observacion}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <button onclick=" location.href='{% url 'ventasapp:index' %}'"
+                class="btn btn-danger" 
+                type="button">
+                Atrás
+        </button>
+    </div>
+
+{% endblock %}
+
+

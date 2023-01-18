@@ -1,0 +1,167 @@
+{% block content %}
+
+<div class="container">
+    {% include "modelos/navbar.html" %}
+    {% include "utils/estilos_bootstrap.html" %}
+<br>
+<h1>Movimientos</h1>
+
+<div>
+    <form>
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-3">
+                        <select class="form-select form-select-sm" name="id_motivo" aria-label="Default select example">
+                            <option value="" selected>--Selecccionar Motivo--</option>
+                            {% for motivo in motivos %}
+                                <option value="{{motivo.id}}">{{ motivo.descripcion }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-3">
+                        <select class="form-select form-select-sm" name="id_producto" aria-label="Default select example">
+                            <option value="" selected>--Selecccionar Producto--</option>
+                            {% for producto in productos %}
+                                <option value="{{producto.id}}">{{ producto.descripcion }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="col-3">
+                        <select class="form-select form-select-sm" name="id_bodega" aria-label="Default select example">
+                            <option value="" selected>--Selecccionar Bodega--</option>
+                            {% for bodega in bodegas %}
+                                <option value="{{bodega.id}}">{{ bodega.descripcion }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="col-3">
+                        <select class="form-select form-select-sm" name="id_color" aria-label="Default select example">
+                            <option value="" selected>--Selecccionar Color--</option>
+                            {% for color in colores %}
+                                <option value="{{color.id}}">{{ color.descripcion }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-4">
+                        <select class="form-select form-select-sm" name="id_talla" aria-label="Default select example">
+                            <option value="" selected>--Selecccionar Talla--</option>
+                            {% for talla in tallas %}
+                                <option value="{{talla.id}}">{{ talla.descripcion }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="col-4">
+                        <select class="form-select form-select-sm" name="id_silueta" aria-label="Default select example">
+                            <option value="" selected>--Selecccionar Silueta--</option>
+                            {% for silueta in siluetas %}
+                                <option value="{{silueta.id}}">{{ silueta.descripcion }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="col-4">
+                        <select class="form-select form-select-sm" name="id_genero" aria-label="Default select example">
+                            <option value="" selected>--Selecccionar Género--</option>
+                            {% for genero in generos %}
+                                <option value="{{genero.id}}">{{ genero.descripcion }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <br>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-4">
+                                <label class="form-label">Fecha Desde</label>
+                                <input type="date" class="form-control" name="fechaDesde"/>
+                            </div>
+                            <div class="col-4">
+                                <label class="form-label">Fecha Hasta</label>
+                                <input type="date" class="form-control" name="fechaHasta"/>
+                            </div>
+                            <div class="col-4">
+                                <br>
+                                <button type="submit" class="btn btn-primary ">Filtrar</button>
+                                <br>
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="row">
+    <div class="col">
+        <button type="button" class="btn btn-primary  btn-sm" onclick=" location.href='{% url 'ventasapp:crear_venta_no_realizada' %}'">
+            Adicionar
+        </button>
+    </div>
+    <div class="col">
+        <button type="button" class="btn btn-success  btn-sm" onclick=" location.href='{% url 'ventasapp:exportar' %}'">
+            Exportar
+        </button>
+        <button type="button" class="btn btn-secondary btn-sm" onclick=" location.href='{% url 'ventasapp:listar_movimiento' %}'">
+            Listar
+        </button>
+    </div>
+</div>
+
+<br>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th scope="col">Fecha</th>
+        <th scope="col">Género</th>
+        <th scope="col">Bodega</th>
+        <th scope="col">Producto</th>
+        <th scope="col">Motivo</th>
+        <th scope="col">Acciones</th>
+    </tr>
+    </thead>
+    <tbody>
+        {% if ventas_no_realizadas %}
+        {% for venta_no_realizada in ventas_no_realizadas %}
+        <tr>
+            <td>{{venta_no_realizada.fecha|date:'Y-m-d'}}</td>
+            <td>{{venta_no_realizada.genero}}</td>
+            <td>{{venta_no_realizada.bodega}}</td>
+            <td>{{venta_no_realizada.producto}}</td>
+            <td>{{venta_no_realizada.motivo}}</td>
+            <td>
+                <button type="button" 
+                        class="btn btn-warning btn-sm  btn-sm"
+                        onclick=" location.href='{% url 'ventasapp:editar' venta_no_realizada.id %}'">
+                        Editar
+                </button>
+
+                <a href=" {% url 'ventasapp:eliminar_movimiento' venta_no_realizada.id %}" 
+                    class="btn btn-danger  btn-sm"
+                    onClick="return confirm('¿Seguro que quieres borrar a {{venta_no_realizada.fecha}} - {{venta_no_realizada.observacion}}?');">
+                    Eliminar
+                </a>
+            </td>
+        </tr>
+    {% endfor %}
+    {% else %}
+        <p>No se ha registrado movimientos</p>
+    {% endif %}
+    </tbody>
+</table>
+</div>
+
+{% endblock %}
+
+
+

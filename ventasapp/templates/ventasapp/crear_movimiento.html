@@ -1,0 +1,97 @@
+{% block contenido %}
+
+{% include "utils/estilos_bootstrap.html" %}
+
+<div class="container">
+    <h1>Adicionar {{ titulo }}</h1>
+        <form action="" method="POST" class="form-horizontal">
+            {% csrf_token %}
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Fecha</label>
+                <div class="col-sm-10">
+                    {{ form.fecha }}
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Género</label>
+                <div class="col-sm-10 ">
+                    {{form.genero}}
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Edad</label>
+                <div type="number" class="col-sm-10 ">
+                    {{form.edad}}
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Bodega</label>
+                <div class="col-sm-10 ">
+                    {{form.bodega}}
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Producto</label>
+                <div class="col-sm-10 ">
+                    {{form.producto}}
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Color</label>
+                <div class="col-sm-10 ">
+                    {{form.color}}
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Talla</label>
+                <div class="col-sm-10 ">
+                    {{form.talla}}
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Silueta</label>
+                <div class="col-sm-10 ">
+                    {{form.silueta}}
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Motivo</label>
+                <div class="col-sm-10 ">
+                    {{form.motivo}}
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Observación</label>
+                <div class="col-sm-10 ">
+                    {{form.observacion}}
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-4">
+                    <button type="submit" 
+                            class="btn btn-success">
+                            Guardar
+                    </button>
+                </div>
+                <div class="col-4">
+                    <button onclick="window.history.back();" 
+                            class="btn btn-danger" 
+                            type="button">
+                            Cancelar
+                    </button>
+                </div>
+        </form>
+    </div>
+<br>
+{% endblock %}
