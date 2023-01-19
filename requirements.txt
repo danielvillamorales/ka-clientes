@@ -1,8 +1,10 @@
 asgiref==3.6.0
-backports.zoneinfo==0.2.1
+backports.zoneinfo==0.2.1;python_version<"3.9"
 chardet==5.1.0
 Django==4.1.5
 django-excel==0.0.10
+gunicorn==20.1.0
+psycopg2-binary==2.9.5
 lml==0.1.0
 pyexcel==0.7.0
 pyexcel-io==0.6.6

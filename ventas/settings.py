@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-ggt*!zz&wsgfvr)*sr-a7($@p$5y62@!)7&2jh49q)q7!_u&a$
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -83,13 +83,13 @@ WSGI_APPLICATION = 'ventas.wsgi.application'
 #}
 
 DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'ventas_no_realizadas',
-            'USER': 'root',
-            'PASSWORD': '',
-            'HOST': 'localhost',
-            'PORT': '3308',
+        'default':{
+            'ENGINE':'django.db.backends.postgresql_psycopg2',
+            'NAME':'whclientes',
+            'USER':'postgres',
+            'PASSWORD':'t3cn0l0g14',
+            'HOST':'localhost',
+            'PORT':'5432'
         }
     }
 
