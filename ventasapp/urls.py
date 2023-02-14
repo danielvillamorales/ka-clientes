@@ -7,10 +7,13 @@ from .views.motivo_view import motivos, crear_motivo, editar_motivo, eliminar_mo
 from .views.producto_view import productos, crear_producto, editar_producto, eliminar_producto
 from .views.silueta_view import siluetas, crear_silueta, editar_silueta, eliminar_silueta
 from .views.talla_view import tallas, crear_talla, editar_talla, eliminar_talla
+from .views.autenticacion_view import Login, logOut
 
 app_name= "ventasapp"
 urlpatterns = [
-    path("", index, name="index"), 
+    path("", Login, name="login"),
+    path("logout/", logOut, name="logOut"),
+    path("index/", index, name="index"),
     path("<int:venta_id>/ver/", detalle_venta_no_realizada, name="detalle"),
     path("<int:venta_id>/editar/", editar_venta_no_realizada, name="editar"),
     path("crear/", crear_venta_no_realizada, name="crear_venta_no_realizada"),

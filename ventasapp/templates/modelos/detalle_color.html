@@ -1,20 +1,27 @@
-{% block contenido %}
+{% block content %}
 
 <div class="container">
 
     {% include "modelos/navbar.html" %}
-
     <br>
     <div>
         <h1>Lista colores</h1>
     </div>
     <br>
 
-    <div class="row">
+    {% if puede_adicionar %}
+    <div>
         <button type="button" class="btn btn-primary btn-sm" onclick=" location.href='{% url 'ventasapp:crear_color' %}'">
             Adicionar
         </button>
     </div>
+    {% endif %}
+
+    {% if mensaje %}
+    <div class="alert alert-success" role="alert">
+        {{ mensaje }}
+    </div>
+    {% endif %}
 
     <br>
     <div>
@@ -33,17 +40,21 @@
                     <td>{{items.codigo}}</td>
                     <td>{{items.descripcion}}</td>
                     <td>
+                        {% if puede_editar %}
                         <button type="button" 
                                 class="btn btn-warning btn-sm"
                                 onclick=" location.href='{% url 'ventasapp:editar_color' items.id %}'">
                                 Editar
                         </button>
+                        {% endif %}
 
+                        {% if puede_eliminar %}
                         <a href=" {% url 'ventasapp:eliminar_color' items.id %}" 
                             class="btn btn-danger btn-sm"
-                            onClick="return confirm('¿Seguro que quieres borrar a {{items.codigo}} - {{items.descripcion}}?');">
+                            onClick="return confirm('¿Seguro que quieres borrar a {{items.codigo}} - {{items.descripcion}}?  (Nota: Recuerde, si el registro esta siendo uitlizado no se podrá eliminar)');">
                             Eliminar
                         </a>
+                        {% endif %}
                     </td>
                 </tr>
             {% endfor %}
@@ -55,4 +66,4 @@
     </div>
 </div>
 
-{% endblock %}
+{% endblock content %}

@@ -1,6 +1,8 @@
-{% block contenido %}
-{% include "utils/estilos_bootstrap.html" %}
-    <div class="container" style="padding-top: 50px;padding-left: 0px;padding-right: 0px;">
+{% extends "base.html" %}
+{% block content %}
+    <div class="container">
+        {% include "modelos/navbar.html" %}
+        <br>
         <table class="table table-striped">
             <thead>
             <tr>
@@ -20,15 +22,15 @@
                 {% for venta_no_realizada in ventas_no_realizadas %}
                 <tr>
                     <td>{{venta_no_realizada.fecha|date:'Y-m-d'}}</td>
-                    <td>{{venta_no_realizada.genero}}</td>
-                    <td>{{venta_no_realizada.edad}}</td>
-                    <td>{{venta_no_realizada.bodega}}</td>
-                    <td>{{venta_no_realizada.producto}}</td>
-                    <td>{{venta_no_realizada.color}}</td>
-                    <td>{{venta_no_realizada.talla}}</td>
-                    <td>{{venta_no_realizada.silueta}}</td>
-                    <td>{{venta_no_realizada.motivo}}</td>
-                    <td>{{venta_no_realizada.observacion}}</td>
+                    <td>{{venta_no_realizada.genero.descripcion |default:"--"}}</td>
+                    <td>{{venta_no_realizada.edad.descripcion |default:"--"}}</td>
+                    <td>{{venta_no_realizada.bodega.descripcion |default:"--"}}</td>
+                    <td>{{venta_no_realizada.producto.descripcion |default:"--"}}</td>
+                    <td>{{venta_no_realizada.color.descripcion |default:"--"}}</td>
+                    <td>{{venta_no_realizada.talla.descripcion |default:"--"}}</td>
+                    <td>{{venta_no_realizada.silueta.descripcion |default:"--"}}</td>
+                    <td>{{venta_no_realizada.motivo.descripcion |default:"--"}}</td>
+                    <td>{{venta_no_realizada.observacion.descripcion |default:"--"}}</td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -40,6 +42,4 @@
         </button>
     </div>
 
-{% endblock %}
-
-
+{% endblock content %}

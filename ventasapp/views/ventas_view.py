@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
+from django.contrib.auth.decorators import login_required
 import xlwt
 from datetime import date
 
@@ -14,17 +15,43 @@ from ..models.silueta import Silueta
 from ..models.talla import Talla
 
 from ..forms import VentaNoRealizadaForm
+from ..models.usuario_bodega import Usuario_Bodega
 
+from .utils import usuario_puede_adicionar, usuario_puede_editar, usuario_puede_eliminar, usuario_puede_listar
+
+@login_required(login_url='ventasapp:login')
 def index(request):
-    motivos = Motivo.objects.all()
-    productos = Producto.objects.all()
-    bodegas = Bodega.objects.all()
-    colores = Color.objects.all()
-    tallas = Talla.objects.all()
-    siluetas = Silueta.objects.all()
-    generos = Genero.objects.all()
+    modelo = "ventanorealizada"
+    ventas_no_realizadas = None
+    motivos = None
+    productos = None
+    bodegas = None
+    colores = None
+    tallas = None
+    siluetas = None
+    generos = None
+    mensaje_error = None
 
-    ventas_no_realizadas = aplicar_filtros(request)
+    try:
+        bodega = Usuario_Bodega.objects.get(usuario=request.user.id)
+    except Usuario_Bodega.DoesNotExist:
+        mensaje_error = 'Usuario no tiene bodega asociada'
+
+    puede_adicionar = usuario_puede_adicionar(request,  modelo)
+    puede_editar = usuario_puede_editar(request,  modelo)
+    puede_eliminar = usuario_puede_eliminar(request, modelo)
+    puede_listar = usuario_puede_listar(request, modelo)
+
+    if puede_listar:
+        motivos = Motivo.objects.all().order_by('descripcion')
+        productos = Producto.objects.all().order_by('descripcion')
+        bodegas = Bodega.objects.all().order_by('descripcion')
+        colores = Color.objects.all().order_by('descripcion')
+        tallas = Talla.objects.all().order_by('descripcion')
+        siluetas = Silueta.objects.all().order_by('descripcion')
+        generos = Genero.objects.all().order_by('descripcion')
+
+        ventas_no_realizadas = aplicar_filtros(request)
     
     return render(request, "ventasapp/index.html", {
         "ventas_no_realizadas": ventas_no_realizadas,
@@ -34,11 +61,17 @@ def index(request):
         "colores": colores,
         "tallas":tallas,
         "siluetas":siluetas,
-        "generos": generos
+        "generos": generos,
+        "puede_adicionar": puede_adicionar,
+        "puede_editar": puede_editar,
+        "puede_eliminar": puede_eliminar,
+        "puede_listar": puede_listar,
+        "mensaje_error": mensaje_error
     })
 
+@login_required(login_url='ventasapp:login')
 def aplicar_filtros(request):
-    q = VentaNoRealizada.objects.all()
+    q = VentaNoRealizada.objects.all().order_by('fecha')
 
     if request.GET :
         fecha_desde = request.GET['fechaDesde'] 
@@ -83,12 +116,14 @@ def aplicar_filtros(request):
 
     return q
 
+@login_required(login_url='ventasapp:login')
 def detalle_venta_no_realizada(request, venta_id):
     venta_no_realizada = get_object_or_404(VentaNoRealizada, pk=venta_id)
     return render(request, "ventasapp/detalle.html", {
         "venta_no_realizada": venta_no_realizada
     })
 
+@login_required(login_url='ventasapp:login')
 def editar_venta_no_realizada(request, venta_id):
     instancia = VentaNoRealizada.objects.get(id=venta_id)
     form = VentaNoRealizadaForm(instance=instancia)
@@ -102,19 +137,35 @@ def editar_venta_no_realizada(request, venta_id):
     context = {'form': form}
     return render(request, "ventasapp/editar_movimiento.html", context)
 
+@login_required(login_url='ventasapp:login')
 def crear_venta_no_realizada(request):
+    try:
+        bodega = Usuario_Bodega.objects.get(usuario=request.user.id)
+    except Usuario_Bodega.DoesNotExist:
+        return HttpResponseRedirect(reverse("ventasapp:index"))
+
     form = VentaNoRealizadaForm()
 
     if request.method == "POST":
         form = VentaNoRealizadaForm(request.POST)
         if form.is_valid():
-            form.save()
+            pk = form.save()
+            agregar_movimiento_bodega_usuario(pk.id, request.user.id)
             return HttpResponseRedirect(reverse("ventasapp:index"))
     context = {
         'form':form,
         }
     return render(request, "ventasapp/crear_movimiento.html", context)
 
+def agregar_movimiento_bodega_usuario(id_movimiento, usuario_id):
+    bodega = Usuario_Bodega.objects.get(usuario=usuario_id)
+
+    movimiento = VentaNoRealizada.objects.get(pk=id_movimiento)
+    movimiento.bodega_id = bodega.bodega.id
+    movimiento.save()
+
+
+@login_required(login_url='ventasapp:login')
 def eliminar_movimiento(request, venta_id):
     movimiento = VentaNoRealizada.objects.get(id=venta_id)
     movimiento.delete()

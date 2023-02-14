@@ -1,7 +1,6 @@
-{% block contenido %}
+{% extends "base.html" %}
 
-{% include "utils/estilos_bootstrap.html" %}
-
+{% block content %}
 <div class="container">
     <br>
     {% if mensaje_error %}
@@ -43,4 +42,4 @@
         </form>
     </div>
 <br>
-{% endblock %}
+{% endblock content %}

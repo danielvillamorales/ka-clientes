@@ -1,9 +1,12 @@
 import xlwt
+import pandas as pd
+import xlrd
+from openpyxl import load_workbook
 
 def existe_registro(instancia, request):
-    bodega_existente = instancia.objects.filter(codigo=request.POST['codigo'], descripcion=request.POST['descripcion'])
+    bodega_existente = instancia.objects.filter(codigo=request.POST['codigo'])
     if bodega_existente:
-        return "Ya existe más de un registro con esa información \n" + str(request.POST['codigo']) + "-" + str(request.POST['descripcion'])
+        return "Ya existe más de un registro con el código indicado \n" + str(bodega_existente[0].codigo) + "-" + str(bodega_existente[0].descripcion)
     else:
         return None
 
@@ -41,4 +44,30 @@ def exportar_modelo(instancia, nombre):
 
     return response
 
+def usuario_puede_listar(request, modelo):
+    permisos = request.user.get_all_permissions()
+    superusuario = request.user.is_superuser
+    puede_listar = ('ventasapp.view_' + modelo in permisos) or (superusuario)
 
+    return puede_listar
+
+def usuario_puede_adicionar(request, modelo):
+    permisos = request.user.get_all_permissions()
+    superusuario = request.user.is_superuser
+    puede_adicionar = ('ventasapp.add_' + modelo in permisos) or (superusuario)
+
+    return puede_adicionar
+
+def usuario_puede_editar(request, modelo):
+    permisos = request.user.get_all_permissions()
+    superusuario = request.user.is_superuser
+    puede_editar = ('ventasapp.change_' + modelo in permisos) or (superusuario)
+
+    return puede_editar
+
+def usuario_puede_eliminar(request, modelo):
+    permisos = request.user.get_all_permissions()
+    superusuario = request.user.is_superuser
+    puede_eliminar = ('ventasapp.delete_' + modelo in permisos) or (superusuario)
+
+    return puede_eliminar

@@ -1,11 +1,12 @@
 {% block content %}
 
 <div class="container">
-    {% include "modelos/navbar.html" %}
-    {% include "utils/estilos_bootstrap.html" %}
+
+{% include "modelos/navbar.html" %}
 <br>
 <h1>Movimientos</h1>
 
+{% if puede_listar %}
 <div>
     <form>
         <div class="card">
@@ -101,7 +102,9 @@
         </div>
     </form>
 </div>
-
+<br>
+{% endif %}
+{% if puede_adicionar %}
 <div class="row">
     <div class="col">
         <button type="button" class="btn btn-primary  btn-sm" onclick=" location.href='{% url 'ventasapp:crear_venta_no_realizada' %}'">
@@ -117,6 +120,13 @@
         </button>
     </div>
 </div>
+{% endif %}
+
+{% if mensaje_error %}
+<div class="alert alert-danger" role="alert">
+    {{ mensaje_error }}
+</div>
+{% endif %}
 
 <br>
 <table class="table table-striped">
@@ -135,22 +145,26 @@
         {% for venta_no_realizada in ventas_no_realizadas %}
         <tr>
             <td>{{venta_no_realizada.fecha|date:'Y-m-d'}}</td>
-            <td>{{venta_no_realizada.genero}}</td>
-            <td>{{venta_no_realizada.bodega}}</td>
-            <td>{{venta_no_realizada.producto}}</td>
-            <td>{{venta_no_realizada.motivo}}</td>
+            <td>{{venta_no_realizada.genero |default:"--"}}</td>
+            <td>{{venta_no_realizada.bodega |default:"--"}}</td>
+            <td>{{venta_no_realizada.producto |default:"--"}}</td>
+            <td>{{venta_no_realizada.motivo |default:"--"}}</td>
             <td>
+                {% if puede_editar %}
                 <button type="button" 
                         class="btn btn-warning btn-sm  btn-sm"
                         onclick=" location.href='{% url 'ventasapp:editar' venta_no_realizada.id %}'">
                         Editar
                 </button>
+                {% endif %}
 
+                {% if puede_eliminar %}
                 <a href=" {% url 'ventasapp:eliminar_movimiento' venta_no_realizada.id %}" 
                     class="btn btn-danger  btn-sm"
-                    onClick="return confirm('¿Seguro que quieres borrar a {{venta_no_realizada.fecha}} - {{venta_no_realizada.observacion}}?');">
+                    onClick="return confirm('¿Seguro que quieres borrar a {{venta_no_realizada.fecha}} - {{venta_no_realizada.observacion}}?  (Nota: Recuerde, si el registro esta siendo uitlizado no se podrá eliminar)');">
                     Eliminar
                 </a>
+                {% endif %}
             </td>
         </tr>
     {% endfor %}
@@ -161,7 +175,4 @@
 </table>
 </div>
 
-{% endblock %}
-
-
-
+{% endblock content %}

@@ -12,4 +12,4 @@ class Genero(models.Model):
     )
     
     def __str__(self):
-        return str(self.descripcion)
+        return str(self.codigo)

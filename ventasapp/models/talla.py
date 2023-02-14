@@ -13,4 +13,4 @@ class Talla(models.Model):
 
 
     def __str__(self):
-        return str(self.codigo) + ' - ' + str(self.descripcion)
+        return str(self.codigo)

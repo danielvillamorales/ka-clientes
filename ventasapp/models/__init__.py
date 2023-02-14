@@ -6,3 +6,4 @@ from ventasapp.models.producto import Producto
 from ventasapp.models.silueta import Silueta
 from ventasapp.models.talla import Talla
 from ventasapp.models.venta_no_realizada import VentaNoRealizada
+from ventasapp.models.usuario_bodega import Usuario_Bodega
