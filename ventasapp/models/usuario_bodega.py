@@ -4,16 +4,16 @@ from .bodega import Bodega
 from django.contrib.auth.models import User
 
 class Usuario_Bodega(models.Model):
-    bodega = models.OneToOneField(
+    bodega = models.ForeignKey(
         Bodega,
-        on_delete=models.CASCADE,
+        on_delete=models.PROTECT,
         blank=True,
         null=True
     )
 
     usuario = models.OneToOneField(
         User,
-        on_delete=models.CASCADE,
+        on_delete=models.PROTECT,
         blank=True,
         null=True
     )
