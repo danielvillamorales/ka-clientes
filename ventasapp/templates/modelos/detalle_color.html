@@ -38,7 +38,7 @@
             {% for items in lista_datos  %}
                 <tr>
                     <td>{{items.codigo}}</td>
-                    <td>{{items.descripcion}}</td>
+                    <td>{{items.descripcion | default:"--"}}</td>
                     <td>
                         {% if puede_editar %}
                         <button type="button" 
