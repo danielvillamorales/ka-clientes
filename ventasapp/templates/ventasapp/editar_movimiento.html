@@ -14,30 +14,16 @@
             {% csrf_token %}
 
             <div class="form-group row">
-                <label class="col-sm-2 col-form-label">Edad</label>
-                <div type="number"  class="col-sm-10 ">
-                    {{form.edad}}
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label class="col-sm-2 col-form-label">Bodega</label>
-                <div class="col-sm-10 ">
-                    {{form.bodega}}
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label class="col-sm-2 col-form-label">Color</label>
-                <div class="col-sm-10 ">
-                    {{form.color}}
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label class="col-sm-2 col-form-label">Genero</label>
+                <label class="col-sm-2 col-form-label">Género</label>
                 <div class="col-sm-10 ">
                     {{form.genero}}
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Edad</label>
+                <div type="number" class="col-sm-10 ">
+                    {{form.edad}}
                 </div>
             </div>
 
@@ -56,9 +42,23 @@
             </div>
 
             <div class="form-group row">
-                <label class="col-sm-2 col-form-label">Silueta</label>
+                <label class="col-sm-2 col-form-label">Material</label>
                 <div class="col-sm-10 ">
-                    {{form.silueta}}
+                    {{form.material}}
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Diseño</label>
+                <div class="col-sm-10 ">
+                    {{form.diseno}}
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Color</label>
+                <div class="col-sm-10 ">
+                    {{form.color}}
                 </div>
             </div>
 
@@ -66,6 +66,20 @@
                 <label class="col-sm-2 col-form-label">Talla</label>
                 <div class="col-sm-10 ">
                     {{form.talla}}
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Silueta</label>
+                <div class="col-sm-10 ">
+                    {{form.silueta}}
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label" style="color: crimson;">Orden de observaciones:</label>
+                <div class="col-sm-10 " style="color: crimson;">
+                    Producto/Material/Color/Diseño/Silueta/Talla
                 </div>
             </div>
 

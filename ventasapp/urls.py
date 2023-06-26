@@ -8,6 +8,8 @@ from .views.producto_view import productos, crear_producto, editar_producto, eli
 from .views.silueta_view import siluetas, crear_silueta, editar_silueta, eliminar_silueta
 from .views.talla_view import tallas, crear_talla, editar_talla, eliminar_talla
 from .views.autenticacion_view import Login, logOut
+from .views.material_view import materiales, crear_material, editar_material, eliminar_material
+from .views.diseno_view import disenos, crear_diseno, editar_diseno, eliminar_diseno
 
 app_name= "ventasapp"
 urlpatterns = [
@@ -51,6 +53,16 @@ urlpatterns = [
     path("siluetas/crear", crear_silueta, name="crear_silueta"),
     path("siluetas/<int:silueta_id>/editar", editar_silueta, name="editar_silueta"),
     path("siluetas/<int:silueta_id>/eliminar", eliminar_silueta, name="eliminar_silueta"),
+
+    path("materiales/", materiales, name="detalle_materiales"),
+    path("materiales/crear", crear_material, name="crear_material"),
+    path("materiales/<int:material_id>/editar", editar_material, name="editar_material"),
+    path("materiales/<int:material_id>/eliminar", eliminar_material, name="eliminar_material"),
+
+    path("disenos/", disenos, name="detalle_disenos"),
+    path("disenos/crear", crear_diseno, name="crear_diseno"),
+    path("disenos/<int:diseno_id>/editar", editar_diseno, name="editar_diseno"),
+    path("disenos/<int:diseno_id>/eliminar", eliminar_diseno, name="eliminar_diseno"),
 
     path("tallas/", tallas, name="detalle_tallas"),
     path("tallas/crear", crear_talla, name="crear_talla"),

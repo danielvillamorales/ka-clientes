@@ -1,7 +1,5 @@
 import xlwt
-import pandas as pd
 import xlrd
-from openpyxl import load_workbook
 
 def existe_registro(instancia, request):
     bodega_existente = instancia.objects.filter(codigo=request.POST['codigo'])

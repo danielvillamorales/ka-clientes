@@ -1,7 +1,45 @@
+body {
+    background-image: url("../img/fondo.jpg") ;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    position: relative;
+    height:100vh;
+  }
+
+  #divlogin{
+    background-color: #002718;
+    opacity: 0.85;
+    padding: 2%;
+    border-radius: 20px;
+  }
+
+  .btn{
+    color: white;
+    background-color: rgb(41, 121, 121);
+    border: #000000;
+  }
+
 .divider:after,
     .divider:before {
         content: "";
         flex: 1;
         height: 1px;
         background: #eee;
+}
+
+label{
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+p{
+    align-items: center;
+    justify-content: center;
+    color: aliceblue;
+    font-size: 24px;
+    font-weight: bold;
+    display: center;
 }

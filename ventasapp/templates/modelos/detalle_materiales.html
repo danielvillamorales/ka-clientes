@@ -1,0 +1,70 @@
+{% block content %}
+
+<div class="container">
+
+    {% include "modelos/navbar.html" %}
+
+    <br>
+    <div>
+        <h1>Lista Materiales</h1>
+    </div>
+    <br>
+
+    {% if puede_adicionar %}
+    <div>
+        <button type="button" class="btn btn-primary btn-sm" onclick=" location.href='{% url 'ventasapp:crear_material' %}'">
+            Adicionar
+        </button>
+    </div>
+    {% endif %}
+
+    {% if mensaje %}
+    <div class="alert alert-success" role="alert">
+        {{ mensaje }}
+    </div>
+    {% endif %}
+
+    <br>
+    <div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">Código</th>
+                <th scope="col">Descripción</th>
+                <th scope="col">Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% if lista_datos %}
+            {% for items in lista_datos  %}
+                <tr>
+                    <td>{{items.codigo}}</td>
+                    <td>{{items.descripcion | default:"--"}}</td>
+                    <td>
+                        {% if puede_editar %}
+                        <button type="button" 
+                                class="btn btn-warning btn-sm"
+                                onclick=" location.href='{% url 'ventasapp:editar_material' items.id %}'">
+                                Editar
+                        </button>
+                        {% endif %}
+
+                        {% if puede_eliminar %}
+                        <a href=" {% url 'ventasapp:eliminar_material' items.id %}" 
+                            class="btn btn-danger btn-sm"
+                            onClick="return confirm('¿Seguro que quieres borrar a {{items.codigo}} - {{items.descripcion}}?  (Nota: Recuerde, si el registro esta siendo uitlizado no se podrá eliminar)');">
+                            Eliminar
+                        </a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            {% else %}
+                <p>No se ha registrado materiales</p>
+            {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock content %}

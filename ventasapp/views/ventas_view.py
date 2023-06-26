@@ -180,12 +180,12 @@ def exportar(request):
     font_style = xlwt.XFStyle()
     font_style.font.bold = True
 
-    columns = ['Fecha', 'Cod_Genero','Desc_Genero', 
-                'Edad', 'Cod_Bodega','Desc_Bodega',
+    columns = ['Fecha', 'Cod_Bodega','Desc_Bodega','Cod_Genero','Desc_Genero', 
+                'Edad', 
                 'Cod_Producto', 'Desc_Producto',
                 'Cod_Color', 'Desc_Color',
                 'Cod_Talla', 'Desc_Talla', 'Cod_Silueta', 
-                'Desc_Silueta', 'Cod_Motivo','Desc_Motivo',
+                'Desc_Silueta', 'Cod_Motivo','Desc_Motivo','Cod_Material','Material','Cod_Diseno','Diseno',
                 'Observacion']
 
     for col_num in range(len(columns)):
@@ -194,13 +194,13 @@ def exportar(request):
     # Sheet body, remaining rows
     font_style = xlwt.XFStyle()
 
-    rows = VentaNoRealizada.objects.all().values_list('fecha', 'genero__codigo', 'genero__descripcion', 
-                                                        'edad', 'bodega__codigo', 'bodega__descripcion', 
+    rows = VentaNoRealizada.objects.all().values_list('fecha', 'bodega__codigo', 'bodega__descripcion', 'genero__codigo', 'genero__descripcion', 
+                                                        'edad',  
                                                         'producto__codigo', 'producto__descripcion', 
                                                         'color__codigo', 'color__descripcion', 
                                                         'talla__codigo', 'talla__descripcion', 
                                                         'silueta__codigo', 'silueta__descripcion', 
-                                                        'motivo__codigo', 'motivo__descripcion', 'observacion')
+                                                        'motivo__codigo', 'motivo__descripcion', 'material__codigo','material__descripcion','diseno__codigo','diseno__descripcion','observacion')
     for row in rows:
         row_num += 1
         for col_num in range(len(row)):

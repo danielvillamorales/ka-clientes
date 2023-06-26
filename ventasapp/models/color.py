@@ -12,4 +12,4 @@ class Color(models.Model):
     )
 
     def __str__(self):
-        return str(self.codigo)
+        return f'{self.codigo} - {self.descripcion}'
