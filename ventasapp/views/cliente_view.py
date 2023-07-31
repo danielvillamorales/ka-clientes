@@ -21,25 +21,31 @@ def import_cliente(request):
             # Obtenga la hoja de trabajo activa
             sheet = wb.get_sheet_by_name("clientes")
 
+            # Crear una lista de objetos Cliente
+            clientes = []
             contador = 1
             for r in sheet.rows:
                 nombre = r[0].value
                 cedula = r[1].value
                 telefono = r[3].value
                 #print(f'{nombre} - {cedula} - {telefono} - {r[2].value}')
-                almacen = Bodega.objects.get(codigo=str(r[2].value).upper())
-                bodega = almacen
-                if bodega is None:
-                    messages.error(request, f'Error en la fila: {contador} No existe la bodega')  
-                contador = contador + 1
-                cliente = Cliente(
-                    nombre=nombre,
-                    cedula=cedula,
-                    bodega=bodega,
-                    telefono=telefono,
-                    fecha_subida=datetime.now(),
-                )
-                cliente.save()
+                try:
+                    almacen = Bodega.objects.get(codigo=str(r[2].value).upper())
+                    print(almacen)
+                    cliente = Cliente(
+                        nombre=nombre,
+                        cedula=cedula,
+                        bodega=almacen,
+                        telefono=telefono,
+                        fecha_subida=datetime.now(),
+                    )
+                    clientes.append(cliente)
+                except Exception as e:
+                    messages.error(request, f'Error en la fila: {contador} No existe la bodega')
+                    return render(request, 'cliente/importar.html')
+                contador += 1
+            # Guardar los objetos Cliente en la base de datos
+            Cliente.objects.bulk_create(clientes)
             messages.success(request, f'Clientes subido correctamente')
         except Exception as e:
             messages.error(request, f'Error al subir clientes: (estructura del archivo o nombre de la hoja incorrectos) {e}')
