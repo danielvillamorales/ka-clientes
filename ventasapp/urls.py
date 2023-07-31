@@ -10,6 +10,7 @@ from .views.talla_view import tallas, crear_talla, editar_talla, eliminar_talla
 from .views.autenticacion_view import Login, logOut
 from .views.material_view import materiales, crear_material, editar_material, eliminar_material
 from .views.diseno_view import disenos, crear_diseno, editar_diseno, eliminar_diseno
+from .views.cliente_view import importacion,listado_clientes
 
 app_name= "ventasapp"
 urlpatterns = [
@@ -68,4 +69,7 @@ urlpatterns = [
     path("tallas/crear", crear_talla, name="crear_talla"),
     path("tallas/<int:talla_id>/editar", editar_talla, name="editar_talla"),
     path("tallas/<int:talla_id>/eliminar", eliminar_talla, name="eliminar_talla"),
+
+    path('cliente/', importacion, name='importacion'),
+    path('cliente/listado_clientes', listado_clientes, name='listado_clientes'),
 ]

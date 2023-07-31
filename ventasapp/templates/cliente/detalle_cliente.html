@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+
+
+<div class="container">
+
+    {% include "modelos/navbar.html" %}
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <td>Nombre</td>
+                <td>Cedula</td>
+                <td>Codigo Bodega</td>
+                <td>Telefono</td>
+                <td>Observaciones</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for cliente in clientes %}
+            <tr>
+                <td>{{cliente.nombre}}</td>
+                <td>{{cliente.cedula}}</td>
+                <td>{{cliente.bodega}}</td>
+                <td>{{cliente.telefono}}</td>
+                <form method="post">
+                    <td>
+                        {% csrf_token %}
+                        <input  type="hidden" name ="idform" value="{{cliente.id}}">
+                        <div class="input-group mb-3">
+                            <input class="form-control form-control-sm" type="text" placeholder="observaciones" name="observaciones">
+                            <button type="submit" class="btn btn-primary btn-sm">
+                                Guardar
+                            </button>
+                        </div>
+                    </td>
+                </form>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+
+
+
+{% endblock content %}

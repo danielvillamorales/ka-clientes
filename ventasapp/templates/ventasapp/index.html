@@ -167,12 +167,32 @@
                 {% endif %}
             </td>
         </tr>
-    {% endfor %}
+        {% empty %}
+        <tr>
+          <td colspan="6">No se encontraron ventas no realizadas.</td>
+        </tr>
+        {% endfor %}
     {% else %}
         <p>No se ha registrado movimientos</p>
     {% endif %}
     </tbody>
 </table>
+      <!-- Aquí va la paginación -->
+      <div class="pagination">
+        <span class="step-links">
+          {% if ventas_no_realizadas.has_previous %}
+            <a href="?page=1">&laquo; Primera</a>
+            <a href="?page={{ ventas_no_realizadas.previous_page_number }}">Anterior</a>
+          {% endif %}
+
+          <span class="current-page">{{ ventas_no_realizadas.number }}</span>
+
+          {% if ventas_no_realizadas.has_next %}
+            <a href="?page={{ ventas_no_realizadas.next_page_number }}">Siguiente</a>
+            <a href="?page={{ ventas_no_realizadas.paginator.num_pages }}">Última &raquo;</a>
+          {% endif %}
+        </span>
+      </div>
 </div>
 
 {% endblock content %}

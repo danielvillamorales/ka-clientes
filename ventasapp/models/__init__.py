@@ -9,3 +9,4 @@ from ventasapp.models.venta_no_realizada import VentaNoRealizada
 from ventasapp.models.usuario_bodega import Usuario_Bodega
 from ventasapp.models.material import Material
 from ventasapp.models.diseno import Diseno
+from ventasapp.models.clientes import Cliente

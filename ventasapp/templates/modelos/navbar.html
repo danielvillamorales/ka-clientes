@@ -41,6 +41,12 @@
             <li class="nav-item">
                 <a class="nav-link" href=" {% url 'ventasapp:detalle_disenos' %} ">Diseño</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'ventasapp:listado_clientes' %}">Clientes</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href=" {% url 'ventasapp:importacion' %} ">Importar</a>
+            </li>
         </ul>
     </div>
     <div>
@@ -51,4 +57,14 @@
         </ul>
     </div>
 </nav>
+
+{% if messages %}
+{% for message in messages %}
+<ul >
+    <li {% if message.tags %} 
+    class="alert alert-{%if message.tags == 'error' %}danger{% else %}{{ message.tags }} {%endif%}  alert-dismissible fade show"{% endif %} role="alert">{{ message }} </li>
+</ul>
+{% endfor %}
+
+{% endif %}
 {% endblock content %}

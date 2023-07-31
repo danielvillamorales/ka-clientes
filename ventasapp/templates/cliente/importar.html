@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+
+
+<div class="container">
+
+    {% include "modelos/navbar.html" %}
+    <h3>Instrucciones</h3>
+
+    <ol class="list-group list-group-flush">
+        <li class="list-group-item">crear un archivo de excel</li>
+        <li class="list-group-item">la hoja se debe llamar: <b>clientes</b></li>
+        <li class="list-group-item">el archivo no debe contener titulos y debe ir en el siguiente orden:</li>
+        <li class="list-group-item">
+            <ul>
+                <li class="list-group-item">nombre</li>
+                <li class="list-group-item">cedula</li>
+                <li class="list-group-item">codigo bodega</li>
+                <li class="list-group-item">telefono</li>
+            </ul>
+        </li>
+    </ol>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div>
+            <label for="excel_file" class="form-label">Archivo de excel:</label>
+            <input class="form-control form-control-lg" id="excel_file" type="file" name="excel_file">
+        </div>
+        <br>
+        <input class="btn btn-primary" type="submit" value="Importar">
+    </form>
+
+</div>
+
+
+
+{% endblock content %}

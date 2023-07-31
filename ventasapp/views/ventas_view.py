@@ -4,6 +4,7 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 import xlwt
 from datetime import date
+from django.core.paginator import Paginator
 
 from ..models.venta_no_realizada import VentaNoRealizada
 from ..models.bodega import Bodega
@@ -52,9 +53,12 @@ def index(request):
         generos = Genero.objects.all().order_by('descripcion')
 
         ventas_no_realizadas = aplicar_filtros(request)
+        paginator = Paginator(ventas_no_realizadas, 18)  # Cambiar el número "10" por la cantidad de elementos que deseas mostrar por página
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
     
     return render(request, "ventasapp/index.html", {
-        "ventas_no_realizadas": ventas_no_realizadas,
+        "ventas_no_realizadas": page_obj,
         "motivos": motivos,
         "productos": productos,
         "bodegas":bodegas,
@@ -71,19 +75,19 @@ def index(request):
 
 @login_required(login_url='ventasapp:login')
 def aplicar_filtros(request):
-    q = VentaNoRealizada.objects.all().order_by('fecha')
+    q = VentaNoRealizada.objects.all().order_by('-fecha')
 
     if request.GET :
-        fecha_desde = request.GET['fechaDesde'] 
-        fecha_hasta = request.GET['fechaHasta']
+        fecha_desde = request.GET.get('fechaDesde', None)
+        fecha_hasta = request.GET.get('fechaHasta', None)
 
-        id_motivo =request.GET['id_motivo']
-        id_producto = request.GET['id_producto']
-        id_bodega = request.GET['id_bodega']
-        id_color = request.GET['id_color']
-        id_talla = request.GET['id_talla']
-        id_silueta = request.GET['id_silueta']
-        id_genero = request.GET['id_genero']
+        id_motivo =request.GET.get('id_motivo', None)
+        id_producto = request.GET.get('id_producto', None)
+        id_bodega = request.GET.get('id_bodega', None)
+        id_color = request.GET.get('id_color', None)
+        id_talla = request.GET.get('id_talla', None)
+        id_silueta = request.GET.get('id_silueta', None)
+        id_genero = request.GET.get('id_genero', None)
 
         if fecha_desde or fecha_hasta:        
             if fecha_desde and fecha_hasta:
@@ -223,6 +227,9 @@ def exportar(request):
 
 def listar_movimiento(request):
     ventas_no_realizadas = VentaNoRealizada.objects.all()
+    paginator = Paginator(ventas_no_realizadas, 20)  # Cambiar el número "10" por la cantidad de elementos que deseas mostrar por página
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
     return render(request, "ventasapp/listar_movimiento.html", {
-        "ventas_no_realizadas": ventas_no_realizadas
+        "ventas_no_realizadas": page_obj
     })
