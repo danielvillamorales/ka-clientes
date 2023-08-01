@@ -227,7 +227,7 @@ def exportar(request):
 
 def listar_movimiento(request):
     ventas_no_realizadas = VentaNoRealizada.objects.all()
-    paginator = Paginator(ventas_no_realizadas, 20)  # Cambiar el número "10" por la cantidad de elementos que deseas mostrar por página
+    paginator = Paginator(ventas_no_realizadas, 9)  # Cambiar el número "20" por la cantidad de elementos que deseas mostrar por página
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     return render(request, "ventasapp/listar_movimiento.html", {

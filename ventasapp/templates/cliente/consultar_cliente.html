@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+
+
+<div class="container">
+
+    {% include "modelos/navbar.html" %}
+
+    <form method="get">
+        {% csrf_token %}
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="cedula del cliente" name="cedula">
+            <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Buscar</button>
+          </div>
+    </form>
+
+    <table class="table table-sm table-striped">
+        <thead class="table-primary">
+            <tr>
+                <td>Nombre</td>
+                <td>Cedula</td>
+                <td>Codigo Bodega</td>
+                <td>Telefono</td>
+                <td>Observaciones</td>
+                <td>Fecha Gestion</td>
+            </tr>
+        </thead>
+        <tbody class="table table-sm">
+            {% for cliente in clientes %}
+            <tr>
+                <td>{{cliente.nombre}}</td>
+                <td>{{cliente.cedula}}</td>
+                <td>{{cliente.bodega}}</td>
+                <td>{{cliente.telefono}}</td>
+                <td>{{cliente.observaciones}}</td>
+                <td>{{cliente.fecha_llamada | date:'Y-m-d'}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock content %}

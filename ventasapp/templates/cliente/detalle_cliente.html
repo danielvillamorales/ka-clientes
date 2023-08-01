@@ -8,8 +8,14 @@
 
     {% include "modelos/navbar.html" %}
 
-    <table class="table table-striped">
-        <thead>
+    <br>
+    <a class="btn btn-outline-danger btn-sm" href=" {% url 'ventasapp:consultar_cliente' %} ">Consultar Cliente</a>
+    
+    <br>
+    <br>
+
+    <table class="table table-sm table-striped">
+        <thead class="table-primary">
             <tr>
                 <td>Nombre</td>
                 <td>Cedula</td>
@@ -18,7 +24,7 @@
                 <td>Observaciones</td>
             </tr>
         </thead>
-        <tbody>
+        <tbody class="table table-sm">
             {% for cliente in clientes %}
             <tr>
                 <td>{{cliente.nombre}}</td>
@@ -30,8 +36,8 @@
                         {% csrf_token %}
                         <input  type="hidden" name ="idform" value="{{cliente.id}}">
                         <div class="input-group mb-3">
-                            <input class="form-control form-control-sm" type="text" placeholder="observaciones" name="observaciones">
-                            <button type="submit" class="btn btn-primary btn-sm">
+                            <input class="form-control-sm" type="text" placeholder="observaciones" name="observaciones">
+                            <button type="submit" class="btn-primary btn-sm">
                                 Guardar
                             </button>
                         </div>
@@ -41,6 +47,22 @@
             {% endfor %}
         </tbody>
     </table>
+    <!-- Aquí va la paginación -->
+    <div class="pagination">
+        <span class="step-links">
+            {% if clientes.has_previous %}
+                <a class="btn btn-primary btn-sm" href="?page=1">&laquo; Primera</a>
+                <a class="btn btn-primary btn-sm" href="?page={{ clientes.previous_page_number }}">Anterior</a>
+            {% endif %}
+    
+            <span class="current-page ">{{ clientes.number }}</span>
+    
+            {% if clientes.has_next %}
+                <a class="btn btn-primary btn-sm" href="?page={{ clientes.next_page_number }}">Siguiente</a>
+                <a class="btn btn-primary btn-sm"  href="?page={{ clientes.paginator.num_pages }}">Última &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
 
 </div>
 

@@ -9,6 +9,7 @@ from django.db.models import Q
 from django.conf import settings
 from django.contrib.auth.models import User,Permission,Group
 from django.contrib import messages
+from django.core.paginator import Paginator
 
 
 def import_cliente(request):
@@ -31,7 +32,7 @@ def import_cliente(request):
                 #print(f'{nombre} - {cedula} - {telefono} - {r[2].value}')
                 try:
                     almacen = Bodega.objects.get(codigo=str(r[2].value).upper())
-                    print(almacen)
+                    #print(almacen)
                     cliente = Cliente(
                         nombre=nombre,
                         cedula=cedula,
@@ -67,7 +68,10 @@ def listado_clientes(request):
     if request.method == 'POST':
         saveObservationClient(request)
     clientes = Cliente.objects.filter(bodega__codigo=user.usuario_bodega.bodega.codigo).filter(observaciones__isnull=True)
-    return render(request, 'cliente/detalle_cliente.html', {"clientes": clientes})
+    paginator = Paginator(clientes, 9)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'cliente/detalle_cliente.html', {"clientes": page_obj})
 
 
 def saveObservationClient(request):
@@ -76,3 +80,11 @@ def saveObservationClient(request):
         cliente.fecha_llamada = datetime.now()
         cliente.save()
         messages.success(request, f'Cliente actualizado correctamente')
+
+
+def consultar_cliente(request):
+    if request.method == 'GET':
+        cedula = request.GET.get('cedula')
+        clientes = Cliente.objects.filter(cedula=cedula).filter(observaciones__isnull=False)
+        return render(request, 'cliente/consultar_cliente.html', {"clientes": clientes})
+    return render(request, 'cliente/consultar_cliente.html')
