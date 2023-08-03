@@ -36,7 +36,7 @@
                         {% csrf_token %}
                         <input  type="hidden" name ="idform" value="{{cliente.id}}">
                         <div class="input-group mb-3">
-                            <input class="form-control-sm" type="text" placeholder="observaciones" name="observaciones">
+                            <input class="form-control-sm" type="text" placeholder="observaciones" required name="observaciones">
                             <button type="submit" class="btn-primary btn-sm">
                                 Guardar
                             </button>
