@@ -3,13 +3,16 @@ from django.shortcuts import get_object_or_404,render, redirect
 from django.views.decorators.csrf import csrf_protect
 from ventasapp.models.clientes import Cliente
 from ventasapp.models.bodega import Bodega
-from datetime import datetime
+from datetime import datetime, date
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.conf import settings
 from django.contrib.auth.models import User,Permission,Group
 from django.contrib import messages
 from django.core.paginator import Paginator
+from django.http import HttpResponse, HttpResponseRedirect
+from io import BytesIO
+import xlwt
 
 
 def import_cliente(request):
@@ -88,3 +91,42 @@ def consultar_cliente(request):
         clientes = Cliente.objects.filter(cedula=cedula).filter(observaciones__isnull=False)
         return render(request, 'cliente/consultar_cliente.html', {"clientes": clientes})
     return render(request, 'cliente/consultar_cliente.html')
+
+def exportar_clientes(request):
+    wb = xlwt.Workbook(encoding='utf-8')
+    ws = wb.add_sheet('Clientes')
+    row_num = 0
+    font_style = xlwt.XFStyle()
+    font_style.font.bold = True
+
+    columns = ['Nombre', 'Cedula', 'Bodega', 'Telefono', 'Fecha Subida', 'Observaciones', 'Fecha Llamada']
+
+    for col_num in range(len(columns)):
+        ws.write(row_num, col_num, columns[col_num], font_style)
+    
+    font_style = xlwt.XFStyle()
+
+    rows = Cliente.objects.filter(observaciones__isnull=False).values_list('nombre', 'cedula', 'bodega__descripcion', 'telefono', 'fecha_subida', 'observaciones', 'fecha_llamada')
+    for row in rows:
+        print(row)
+        row_num += 1
+        for col_num in range(len(row)):
+            if isinstance(row[col_num], date):
+                fecha = row[col_num].strftime('%Y-%m-%d %H:%M:%S')
+                ws.write(row_num, col_num, fecha, font_style)
+            else:
+                ws.write(row_num, col_num, row[col_num], font_style)
+
+    response = HttpResponse(content_type='application/ms-excel')
+    response['Content-Disposition'] = 'attachment; filename=clientes.xls'
+    # Guardar el contenido del libro de trabajo en un búfer BytesIO
+    output = BytesIO()
+    wb.save(output)
+    
+    # Configurar la posición del búfer al principio
+    output.seek(0)
+    
+    # Configurar el contenido del búfer como contenido de la respuesta
+    response.write(output.getvalue())
+    
+    return response
