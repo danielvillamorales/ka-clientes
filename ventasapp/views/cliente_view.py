@@ -127,7 +127,7 @@ def exportar_clientes(request):
     # Procesar los datos y escribir en el archivo
     for row_num, row in enumerate(rows, start=1):
         cliente_compra = ventas_dict.get((row[1], str(row[6].year)), {})
-        print(cliente_compra)
+        #print(cliente_compra)
         for col_num, value in enumerate(row):
             if isinstance(value, datetime):
                 formatted_date = value.strftime('%Y-%m-%d %H:%M:%S')
