@@ -83,6 +83,12 @@ WSGI_APPLICATION = 'ventas.wsgi.application'
 #    }
 #}
 
+SN_DB = 'xe'
+USER_DB = 'logistica'
+PASS_DB = 'kostazul'
+HOST_DB = '192.168.0.4'
+PORT_DB = '1521'
+
 DATABASES = {
         'default':{
             'ENGINE':'django.db.backends.postgresql_psycopg2',
@@ -91,9 +97,19 @@ DATABASES = {
             'PASSWORD':'t3cn0l0g14',
             'HOST':'192.168.0.13',
             'PORT':'5432'
+        }, 
+        'logistica_db':{
+            'ENGINE': 'django.db.backends.oracle',  # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+            'NAME': SN_DB,                          # Or path to database file if using sqlite3.
+            'USER': USER_DB,                      # Not used with sqlite3.
+            'PASSWORD': PASS_DB,                  # Not used with sqlite3.
+            'HOST': HOST_DB,
+            'PORT': PORT_DB,                     # Set to empty string for default. Not used with sqlite3.
+            'OPTIONS': {'threaded': True}
         }
     }
 
+DATABASES_ROUTERS = ['ventasapp.routers.auth_router.AuthRouter',]
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators

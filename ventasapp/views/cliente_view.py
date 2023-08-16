@@ -1,7 +1,7 @@
 import openpyxl
 from django.shortcuts import get_object_or_404,render, redirect
 from django.views.decorators.csrf import csrf_protect
-from ventasapp.models.clientes import Cliente
+from ventasapp.models.clientes import Cliente , VentasClientesPsv
 from ventasapp.models.bodega import Bodega
 from datetime import datetime, date
 from django.contrib.auth.decorators import login_required
@@ -13,6 +13,8 @@ from django.core.paginator import Paginator
 from django.http import HttpResponse, HttpResponseRedirect
 from io import BytesIO
 import xlwt
+
+
 
 
 def import_cliente(request):
@@ -99,7 +101,7 @@ def exportar_clientes(request):
     font_style = xlwt.XFStyle()
     font_style.font.bold = True
 
-    columns = ['Nombre', 'Cedula', 'Bodega', 'Telefono', 'Fecha Subida', 'Observaciones', 'Fecha Llamada']
+    columns = ['Nombre', 'Cedula', 'Bodega', 'Telefono', 'Fecha Subida', 'Observaciones', 'Fecha Llamada', 'ventas', 'valor_venta']
 
     for col_num in range(len(columns)):
         ws.write(row_num, col_num, columns[col_num], font_style)
@@ -107,15 +109,34 @@ def exportar_clientes(request):
     font_style = xlwt.XFStyle()
 
     rows = Cliente.objects.filter(observaciones__isnull=False).values_list('nombre', 'cedula', 'bodega__descripcion', 'telefono', 'fecha_subida', 'observaciones', 'fecha_llamada')
-    for row in rows:
-        print(row)
-        row_num += 1
-        for col_num in range(len(row)):
-            if isinstance(row[col_num], date):
-                fecha = row[col_num].strftime('%Y-%m-%d %H:%M:%S')
-                ws.write(row_num, col_num, fecha, font_style)
+    cedulas = [row[1] for row in rows]
+    anos_llamada = list(set([row[6].year for row in rows]))
+    ventas_clientes = VentasClientesPsv.objects.using('logistica_db').filter(ms_nit__in=cedulas, anio__in=anos_llamada)
+# Crear un diccionario para mapear ventas por cliente y año
+    ventas_dict = {}
+    for venta in ventas_clientes:
+        key = (venta.ms_nit, venta.anio)
+        if key not in ventas_dict:
+            ventas_dict[key] = {
+                'ventas': [],
+                'total_vendido': 0,
+            }
+        ventas_dict[key]['ventas'].append(str(venta))
+        ventas_dict[key]['total_vendido'] += venta.vendido or 0
+
+    # Procesar los datos y escribir en el archivo
+    for row_num, row in enumerate(rows, start=1):
+        cliente_compra = ventas_dict.get((row[1], str(row[6].year)), {})
+        print(cliente_compra)
+        for col_num, value in enumerate(row):
+            if isinstance(value, datetime):
+                formatted_date = value.strftime('%Y-%m-%d %H:%M:%S')
+                ws.write(row_num, col_num, formatted_date, font_style)
             else:
-                ws.write(row_num, col_num, row[col_num], font_style)
+                ws.write(row_num, col_num, value, font_style)
+        if len(cliente_compra)> 0:
+            ws.write(row_num, 7, '\n'.join(map(str, cliente_compra['ventas'])), font_style)
+            ws.write(row_num, 8, cliente_compra['total_vendido'], font_style)
 
     response = HttpResponse(content_type='application/ms-excel')
     response['Content-Disposition'] = 'attachment; filename=clientes.xls'
