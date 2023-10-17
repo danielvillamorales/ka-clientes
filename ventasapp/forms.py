@@ -200,38 +200,47 @@ class NumberInput(forms.TextInput):
 class VentaNoRealizadaForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['genero']=forms.ModelChoiceField(queryset=Genero.objects.all().order_by('descripcion'))
+        self.fields['genero']=forms.ModelChoiceField(queryset=Genero.objects.all().order_by('descripcion'),
+                                                     widget=forms.Select(attrs={'class':'form-control'}))
         self.fields['genero'].required = False
         self.fields['genero'].label_from_instance = lambda obj: f'{obj.codigo} - {obj.descripcion}'
+
 
         self.fields['bodega'].required = False
         self.fields['bodega'].disabled = True
 
-        self.fields['producto']=forms.ModelChoiceField(queryset=Producto.objects.all().order_by('descripcion'))
+        self.fields['producto']=forms.ModelChoiceField(queryset=Producto.objects.all().order_by('descripcion'),
+                                                        widget=forms.Select(attrs={'class':'form-control'}))
         self.fields['producto'].required = False
         self.fields['producto'].label_from_instance = lambda obj: f'{obj.codigo} - {obj.descripcion}'
         
-        self.fields['color']=forms.ModelChoiceField(queryset=Color.objects.all().order_by('descripcion'))
+        self.fields['color']=forms.ModelChoiceField(queryset=Color.objects.all().order_by('descripcion'),
+                                                     widget=forms.Select(attrs={'class':'form-control'}))
         self.fields['color'].required = False
         self.fields['color'].label_from_instance = lambda obj: f'{obj.codigo} - {obj.descripcion}'
 
-        self.fields['talla']=forms.ModelChoiceField(queryset=Talla.objects.all().order_by('descripcion'))
+        self.fields['talla']=forms.ModelChoiceField(queryset=Talla.objects.all().order_by('descripcion'),
+                                                     widget=forms.Select(attrs={'class':'form-control'}))
         self.fields['talla'].required = False
         self.fields['talla'].label_from_instance = lambda obj: f'{obj.descripcion}'
         
-        self.fields['silueta']=forms.ModelChoiceField(queryset=Silueta.objects.all().order_by('descripcion'))
+        self.fields['silueta']=forms.ModelChoiceField(queryset=Silueta.objects.all().order_by('descripcion'),
+                                                       widget=forms.Select(attrs={'class':'form-control'}))
         self.fields['silueta'].required = False
         self.fields['silueta'].label_from_instance = lambda obj: f'{obj.codigo} - {obj.descripcion}'
 
-        self.fields['motivo']=forms.ModelChoiceField(queryset=Motivo.objects.all().order_by('descripcion'))
+        self.fields['motivo']=forms.ModelChoiceField(queryset=Motivo.objects.all().order_by('descripcion'),
+                                                      widget=forms.Select(attrs={'class':'form-control'}))
         self.fields['motivo'].required = True
         self.fields['motivo'].label_from_instance = lambda obj: f'{obj.codigo} - {obj.descripcion}'
 
-        self.fields['diseno']=forms.ModelChoiceField(queryset=Diseno.objects.all().order_by('descripcion'))
+        self.fields['diseno']=forms.ModelChoiceField(queryset=Diseno.objects.all().order_by('descripcion'),
+                                                      widget=forms.Select(attrs={'class':'form-control'}))
         self.fields['diseno'].required = False
         self.fields['diseno'].label_from_instance = lambda obj: f'{obj.codigo} - {obj.descripcion}'
 
-        self.fields['material']=forms.ModelChoiceField(queryset=Material.objects.all().order_by('descripcion'))
+        self.fields['material']=forms.ModelChoiceField(queryset=Material.objects.all().order_by('descripcion'),
+                                                        widget=forms.Select(attrs={'class':'form-control'}))
         self.fields['material'].required = False
         self.fields['material'].label_from_instance = lambda obj: f'{obj.codigo} - {obj.descripcion}'
         
@@ -241,6 +250,8 @@ class VentaNoRealizadaForm(ModelForm):
         model = VentaNoRealizada
         fields = '__all__'
         widgets = {
-            'edad': NumberInput(attrs={'min': '0', 'max': '99', 'step': '1'})
+            'edad': NumberInput(attrs={'min': '0', 'max': '99', 'step': '1','class': 'form-control'},),
+            'observacion': forms.Textarea(attrs={'class': 'form-control', 'rows': 2}),
+                                
         }
 

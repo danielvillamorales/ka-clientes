@@ -3,102 +3,83 @@
 {% block content %}
 
 <div class="container">
-    <h1>Adicionar {{ titulo }}</h1>
-        <form action="" method="POST" class="form-horizontal">
+    <h3 class="text-secondary">Adicionar {{ titulo }}</h3>
+    <hr> 
+    <div class="form-control">  
+    <form action="" method="POST" class="form-horizontal">
             {% csrf_token %}
-
-            <div class="form-group row">
-                <label class="col-sm-2 col-form-label">Género</label>
-                <div class="col-sm-10 ">
+            
+                <div class="input-group input-group-sm mb-3">
+                    <label class="input-group-text">Género</label>
                     {{form.genero}}
                 </div>
-            </div>
 
-            <div class="form-group row">
-                <label class="col-sm-2 col-form-label">Edad</label>
-                <div type="number" class="col-sm-10 ">
-                    {{form.edad}}
+                <div class="input-group input-group-sm mb-3">
+                    <label class="input-group-text">Edad</label>
+                        {{form.edad}}
                 </div>
-            </div>
 
-            <div class="form-group row">
-                <label class="col-sm-2 col-form-label">Motivo</label>
-                <div class="col-sm-10 ">
-                    {{form.motivo}}
+                <div  class="input-group input-group-sm mb-3">
+                    <label class="input-group-text">Motivo</label>
+                        {{form.motivo}}
                 </div>
-            </div>
 
-            <div class="form-group row">
-                <label class="col-sm-2 col-form-label">Producto</label>
-                <div class="col-sm-10 ">
-                    {{form.producto}}
+                <div  class="input-group input-group-sm mb-3">
+                    <label class="input-group-text">Producto</label>
+                        {{form.producto}}
                 </div>
-            </div>
 
-            <div class="form-group row">
-                <label class="col-sm-2 col-form-label">Material</label>
-                <div class="col-sm-10 ">
-                    {{form.material}}
+                <div class="input-group input-group-sm mb-3">
+                    <label class="input-group-text">Material</label>
+                        {{form.material}}
                 </div>
-            </div>
 
-            <div class="form-group row">
-                <label class="col-sm-2 col-form-label">Diseño</label>
-                <div class="col-sm-10 ">
-                    {{form.diseno}}
+                <div class="input-group input-group-sm mb-3">
+                    <label class="input-group-text">Diseño</label>
+                        {{form.diseno}}
                 </div>
-            </div>
 
-            <div class="form-group row">
-                <label class="col-sm-2 col-form-label">Color</label>
-                <div class="col-sm-10 ">
-                    {{form.color}}
+                <div class="input-group input-group-sm mb-3">
+                    <label class="input-group-text">Color</label>
+                        {{form.color}}
                 </div>
-            </div>
 
-            <div class="form-group row">
-                <label class="col-sm-2 col-form-label">Talla</label>
-                <div class="col-sm-10 ">
-                    {{form.talla}}
+                <div class="input-group input-group-sm mb-3">
+                    <label class="input-group-text">Talla</label>
+                        {{form.talla}}
                 </div>
-            </div>
 
-            <div class="form-group row">
-                <label class="col-sm-2 col-form-label">Silueta</label>
-                <div class="col-sm-10 ">
-                    {{form.silueta}}
+                <div class="input-group input-group-sm mb-3">
+                    <label class="input-group-text">Silueta</label>
+                        {{form.silueta}}
                 </div>
-            </div>
 
-            <div class="form-group row">
-                <label class="col-sm-2 col-form-label" style="color: crimson;">Orden de observaciones:</label>
-                <div class="col-sm-10 " style="color: crimson;">
-                    Producto/Material/Color/Diseño/Silueta/Talla
+                <div class="input-group input-group-sm mb-3">
+                    <span class="form-control bg-danger text-white text-center">
+                        <b>Orden: Producto/Material/Color/Diseño/Silueta/Talla</b>
+                    </span>
                 </div>
-            </div>
 
-            <div class="form-group row">
-                <label class="col-sm-2 col-form-label">Observación</label>
-                <div class="col-sm-10 ">
-                    {{form.observacion}}
+                <div class="input-group input-group-sm mb-3">
+                    <label class="input-group-text">Observación</label>
+                        {{form.observacion}}
                 </div>
-            </div>
-            
-            <div class="row">
-                <div class="col-4">
-                    <button type="submit" 
-                            class="btn btn-success">
-                            Guardar
-                    </button>
-                </div>
-                <div class="col-4">
-                    <button onclick="window.history.back();" 
-                            class="btn btn-danger" 
-                            type="button">
-                            Cancelar
-                    </button>
+                
+                <div class="row">
+                    <div class="col-4">
+                        <button type="submit" 
+                                class="btn btn-success">
+                                Guardar
+                        </button>
+                        <button onclick="window.history.back();" 
+                                class="btn btn-danger" 
+                                type="button">
+                                Cancelar
+                        </button>
+                    </div>
                 </div>
         </form>
     </div>
+</div>
 <br>
 {% endblock content %}
